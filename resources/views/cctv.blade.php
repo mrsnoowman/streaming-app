@@ -379,6 +379,7 @@
             gap: var(--spacing-sm);
             margin-top: var(--spacing-3xl);
             padding: var(--spacing-xl);
+            flex-wrap: wrap;
         }
 
         .pagination-btn {
@@ -415,7 +416,10 @@
         .pagination-info {
             color: var(--text-muted);
             font-size: var(--font-size-base);
-            margin: 0 var(--spacing-lg);
+            margin: var(--spacing-md) 0 0 0;
+            width: 100%;
+            text-align: center;
+            order: 1;
         }
 
         /* Performance Optimization */
