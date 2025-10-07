@@ -363,6 +363,38 @@
             border-radius: var(--radius-lg);
         }
 
+        .video-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            border-radius: var(--radius-lg);
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .video-stream.loaded + .video-loading {
+            display: none;
+        }
+
         /* Pagination Styles */
         .pagination-container {
             display: flex;
@@ -819,6 +851,9 @@
                             <video class="video-stream" id="vms-{{ $vmsItem->id }}" autoplay muted playsinline preload="metadata" data-src="{{ $vmsItem->http_link }}">
                                 <source src="" type="application/x-mpegURL">
                             </video>
+                            <div class="video-loading">
+                                <div class="spinner"></div>
+                            </div>
                         @else
                             <div class="video-placeholder">
                                 <i class="fas {{ $vmsItem->status ? 'fa-tv' : 'fa-tv-slash' }}" style="font-size: 32px; color: #64748b;"></i>
@@ -927,28 +962,60 @@
             // Function to load video stream with auto-play
             function loadVideoStream(video, src) {
                 const source = video.querySelector('source');
+                const loadingSpinner = video.nextElementSibling;
                 
                 if (Hls.isSupported()) {
                     const hls = new Hls({
-                        enableWorker: false,
+                        enableWorker: true,
                         lowLatencyMode: true,
-                        backBufferLength: 90
+                        backBufferLength: 30,
+                        maxBufferLength: 60,
+                        maxMaxBufferLength: 90,
+                        maxBufferSize: 60 * 1000 * 1000,
+                        maxBufferHole: 0.5,
+                        highBufferWatchdogPeriod: 2,
+                        nudgeOffset: 0.1,
+                        nudgeMaxRetry: 3,
+                        maxFragLookUpTolerance: 0.25,
+                        liveSyncDurationCount: 3,
+                        liveMaxLatencyDurationCount: 10,
+                        startLevel: -1,
+                        abrEwmaFastLive: 3.0,
+                        abrEwmaSlowLive: 9.0,
+                        manifestLoadingTimeOut: 10000,
+                        manifestLoadingMaxRetry: 2
                     });
+                    
                     hls.loadSource(src);
                     hls.attachMedia(video);
+                    
                     hls.on(Hls.Events.MANIFEST_PARSED, () => {
                         video.classList.add('loaded');
+                        if (loadingSpinner && loadingSpinner.classList.contains('video-loading')) {
+                            loadingSpinner.style.display = 'none';
+                        }
                         // Auto-play the video after loading
                         video.play().catch(e => {
                             console.log('Auto-play prevented:', e);
-                            // If auto-play is blocked, show play button
                             video.controls = true;
                         });
+                    });
+                    
+                    hls.on(Hls.Events.ERROR, (event, data) => {
+                        if (data.fatal) {
+                            if (loadingSpinner && loadingSpinner.classList.contains('video-loading')) {
+                                loadingSpinner.style.display = 'none';
+                            }
+                            console.error('HLS Error:', data);
+                        }
                     });
                 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                     source.src = src;
                     video.load();
                     video.classList.add('loaded');
+                    if (loadingSpinner && loadingSpinner.classList.contains('video-loading')) {
+                        loadingSpinner.style.display = 'none';
+                    }
                     // Auto-play for Safari
                     video.play().catch(e => {
                         console.log('Auto-play prevented:', e);
@@ -959,18 +1026,17 @@
 
             // Observe all video elements on current page only
             const videos = document.querySelectorAll('.video-stream[data-src]');
-            videos.forEach(video => {
-                videoObserver.observe(video);
-            });
-
-            // Load all videos on current page immediately for auto-play
-            // Since pagination shows 10 items per page, load all of them
-            videos.forEach(video => {
-                const src = video.getAttribute('data-src');
-                if (src) {
-                    loadVideoStream(video, src);
-                    videoObserver.unobserve(video);
-                }
+            
+            // Progressive loading: Load videos one by one with small delay
+            // This prevents network congestion and improves perceived performance
+            videos.forEach((video, index) => {
+                // Stagger video loading by 100ms each
+                setTimeout(() => {
+                    const src = video.getAttribute('data-src');
+                    if (src) {
+                        loadVideoStream(video, src);
+                    }
+                }, index * 100); // 100ms delay between each video
             });
 
             // Auto-refresh status every 30 seconds
