@@ -395,6 +395,62 @@
             display: none;
         }
 
+        /* Fullscreen Button */
+        .fullscreen-btn {
+            position: absolute;
+            bottom: var(--spacing-md);
+            right: var(--spacing-md);
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .video-container:hover .fullscreen-btn {
+            opacity: 1;
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(34, 197, 94, 0.9);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+        }
+
+        .fullscreen-btn i {
+            color: white;
+            font-size: 16px;
+        }
+
+        /* Fullscreen video styles */
+        .video-container:fullscreen {
+            background: black;
+            border-radius: 0;
+        }
+
+        .video-container:fullscreen .video-stream {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+            border-radius: 0;
+        }
+
+        .video-container:fullscreen .fullscreen-btn {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-container:fullscreen:hover .fullscreen-btn {
+            opacity: 1;
+        }
+
         /* Pagination Styles */
         .pagination-container {
             display: flex;
@@ -503,14 +559,16 @@
             position: fixed;
             top: var(--spacing-xl);
             right: var(--spacing-xl);
-            background: rgba(0, 0, 0, 0.8);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.95) 0%, rgba(22, 163, 74, 0.95) 100%);
+            color: white;
             padding: var(--spacing-md) var(--spacing-xl);
             border-radius: var(--radius-md);
             font-size: var(--font-size-base);
             display: none;
             z-index: var(--z-dropdown);
             backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .loading-indicator.show {
@@ -846,7 +904,7 @@
                     <div class="video-header">
                         <div class="location-name">{{ $vmsItem->lokasi }}</div>
                     </div>
-                    <div class="video-container">
+                    <div class="video-container" id="container-vms-{{ $vmsItem->id }}">
                         @if($vmsItem->status && $vmsItem->http_link)
                             <video class="video-stream" id="vms-{{ $vmsItem->id }}" autoplay muted playsinline preload="metadata" data-src="{{ $vmsItem->http_link }}">
                                 <source src="" type="application/x-mpegURL">
@@ -854,6 +912,9 @@
                             <div class="video-loading">
                                 <div class="spinner"></div>
                             </div>
+                            <button class="fullscreen-btn" onclick="toggleFullscreen('container-vms-{{ $vmsItem->id }}')" title="Fullscreen">
+                                <i class="fas fa-expand"></i>
+                            </button>
                         @else
                             <div class="video-placeholder">
                                 <i class="fas {{ $vmsItem->status ? 'fa-tv' : 'fa-tv-slash' }}" style="font-size: 32px; color: #64748b;"></i>
@@ -936,6 +997,37 @@
                 body.offsetHeight;
             }
         }
+
+        // Fullscreen function
+        function toggleFullscreen(containerId) {
+            const container = document.getElementById(containerId);
+            const btn = container.querySelector('.fullscreen-btn i');
+            
+            if (!document.fullscreenElement) {
+                container.requestFullscreen().then(() => {
+                    btn.classList.remove('fa-expand');
+                    btn.classList.add('fa-compress');
+                }).catch(err => {
+                    console.error('Error attempting to enable fullscreen:', err);
+                });
+            } else {
+                document.exitFullscreen().then(() => {
+                    btn.classList.remove('fa-compress');
+                    btn.classList.add('fa-expand');
+                });
+            }
+        }
+
+        // Listen for fullscreen change events
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                // Reset all buttons to expand icon
+                document.querySelectorAll('.fullscreen-btn i').forEach(icon => {
+                    icon.classList.remove('fa-compress');
+                    icon.classList.add('fa-expand');
+                });
+            }
+        });
 
         // Lazy loading and performance optimization
         document.addEventListener('DOMContentLoaded', function() {
