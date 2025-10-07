@@ -959,7 +959,7 @@
                 rootMargin: '50px'
             });
 
-            // Function to load video stream with auto-play
+            // Function to load video stream with auto-play (simplified for speed)
             function loadVideoStream(video, src) {
                 const source = video.querySelector('source');
                 const loadingSpinner = video.nextElementSibling;
@@ -969,21 +969,7 @@
                         enableWorker: true,
                         lowLatencyMode: true,
                         backBufferLength: 30,
-                        maxBufferLength: 60,
-                        maxMaxBufferLength: 90,
-                        maxBufferSize: 60 * 1000 * 1000,
-                        maxBufferHole: 0.5,
-                        highBufferWatchdogPeriod: 2,
-                        nudgeOffset: 0.1,
-                        nudgeMaxRetry: 3,
-                        maxFragLookUpTolerance: 0.25,
-                        liveSyncDurationCount: 3,
-                        liveMaxLatencyDurationCount: 10,
-                        startLevel: -1,
-                        abrEwmaFastLive: 3.0,
-                        abrEwmaSlowLive: 9.0,
-                        manifestLoadingTimeOut: 10000,
-                        manifestLoadingMaxRetry: 2
+                        maxBufferLength: 60
                     });
                     
                     hls.loadSource(src);
@@ -994,19 +980,12 @@
                         if (loadingSpinner && loadingSpinner.classList.contains('video-loading')) {
                             loadingSpinner.style.display = 'none';
                         }
-                        // Auto-play the video after loading
-                        video.play().catch(e => {
-                            console.log('Auto-play prevented:', e);
-                            video.controls = true;
-                        });
+                        video.play().catch(e => console.log('Auto-play prevented:', e));
                     });
                     
                     hls.on(Hls.Events.ERROR, (event, data) => {
-                        if (data.fatal) {
-                            if (loadingSpinner && loadingSpinner.classList.contains('video-loading')) {
-                                loadingSpinner.style.display = 'none';
-                            }
-                            console.error('HLS Error:', data);
+                        if (data.fatal && loadingSpinner && loadingSpinner.classList.contains('video-loading')) {
+                            loadingSpinner.style.display = 'none';
                         }
                     });
                 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -1016,27 +995,24 @@
                     if (loadingSpinner && loadingSpinner.classList.contains('video-loading')) {
                         loadingSpinner.style.display = 'none';
                     }
-                    // Auto-play for Safari
-                    video.play().catch(e => {
-                        console.log('Auto-play prevented:', e);
-                        video.controls = true;
-                    });
+                    video.play().catch(e => console.log('Auto-play prevented:', e));
                 }
             }
 
             // Observe all video elements on current page only
             const videos = document.querySelectorAll('.video-stream[data-src]');
-            
-            // Progressive loading: Load videos one by one with small delay
-            // This prevents network congestion and improves perceived performance
-            videos.forEach((video, index) => {
-                // Stagger video loading by 100ms each
-                setTimeout(() => {
-                    const src = video.getAttribute('data-src');
-                    if (src) {
-                        loadVideoStream(video, src);
-                    }
-                }, index * 100); // 100ms delay between each video
+            videos.forEach(video => {
+                videoObserver.observe(video);
+            });
+
+            // Load all videos on current page immediately for auto-play
+            // Since pagination shows 10 items per page, load all of them
+            videos.forEach(video => {
+                const src = video.getAttribute('data-src');
+                if (src) {
+                    loadVideoStream(video, src);
+                    videoObserver.unobserve(video);
+                }
             });
 
             // Auto-refresh status every 30 seconds
