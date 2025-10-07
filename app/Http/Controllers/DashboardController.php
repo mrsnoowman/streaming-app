@@ -14,17 +14,12 @@ class DashboardController extends Controller
     {
         try {
             $perPage = 10;
-            $page = $request->get('page', 1);
             
-            // Cache key untuk pagination
-            $cacheKey = "cctv_page_{$page}";
-            
-            // Query CCTV dengan pagination dan caching
-            $cctvs = Cache::remember($cacheKey, 300, function () use ($perPage, $page) {
-                return Cctv::orderBy('lokasi', 'asc')
-                    ->paginate($perPage, ['*'], 'page', $page)
-                    ->appends(request()->query());
-            });
+            // Query CCTV dengan pagination (tanpa caching pagination object)
+            // Caching pagination object menyebabkan issue dengan pagination methods
+            $cctvs = Cctv::orderBy('lokasi', 'asc')
+                ->paginate($perPage)
+                ->appends($request->query());
             
             return view('cctv', compact('cctvs'));
             
@@ -43,17 +38,12 @@ class DashboardController extends Controller
     {
         try {
             $perPage = 10;
-            $page = $request->get('page', 1);
             
-            // Cache key untuk pagination
-            $cacheKey = "vms_page_{$page}";
-            
-            // Query VMS dengan pagination dan caching
-            $vms = Cache::remember($cacheKey, 300, function () use ($perPage, $page) {
-                return Vms::orderBy('lokasi', 'asc')
-                    ->paginate($perPage, ['*'], 'page', $page)
-                    ->appends(request()->query());
-            });
+            // Query VMS dengan pagination (tanpa caching pagination object)
+            // Caching pagination object menyebabkan issue dengan pagination methods
+            $vms = Vms::orderBy('lokasi', 'asc')
+                ->paginate($perPage)
+                ->appends($request->query());
             
             return view('vms', compact('vms'));
             
