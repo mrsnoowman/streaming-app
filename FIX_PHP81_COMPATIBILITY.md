@@ -1,9 +1,11 @@
 # Fix PHP 8.1 Compatibility Issue
 
 ## Problem
+
 Server is running PHP 8.1.16, but the application requires PHP 8.2.0 or higher.
 
 ## Solution Applied
+
 Changed PHP requirement from `^8.2` to `^8.1` in composer.json to support PHP 8.1+
 
 ## Steps to Fix on Server
@@ -61,16 +63,19 @@ nano composer.json
 ```
 
 Change this line:
+
 ```json
 "php": "^8.2",
 ```
 
 To:
+
 ```json
 "php": "^8.1",
 ```
 
 Then run:
+
 ```bash
 composer update --no-dev --optimize-autoloader
 php artisan optimize
@@ -94,18 +99,20 @@ php artisan serve
 ## Production Deployment with PHP 8.1
 
 The application now supports:
-- ✅ PHP 8.1.16 (your current version)
-- ✅ PHP 8.2.x
-- ✅ PHP 8.3.x
+
+-   ✅ PHP 8.1.16 (your current version)
+-   ✅ PHP 8.2.x
+-   ✅ PHP 8.3.x
 
 All features will work correctly with PHP 8.1+
 
 ## Note
 
 While PHP 8.1 is supported, we recommend upgrading to PHP 8.2+ for:
-- Better performance
-- Latest security patches
-- Long-term support
+
+-   Better performance
+-   Latest security patches
+-   Long-term support
 
 ## Upgrade PHP to 8.2 (Optional - Recommended for Production)
 
