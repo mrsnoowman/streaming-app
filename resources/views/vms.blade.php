@@ -24,12 +24,6 @@
 
         body {
             font-family: var(--font-family);
-            background: var(--gradient-bg);
-            background-image: url('{{ asset('images/1636870790794.jpg') }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
             min-height: 100vh;
             color: var(--text-secondary);
             overflow-x: hidden;
@@ -37,6 +31,30 @@
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.3s ease, color 0.3s ease;
             position: relative;
+        }
+
+        /* Background image fixed for desktop */
+        @media (min-width: 769px) {
+            body {
+                background: var(--gradient-bg);
+                background-image: url('{{ asset('images/1636870790794.jpg') }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+        }
+
+        /* Background image scroll for mobile/iPhone (iOS fix) */
+        @media (max-width: 768px) {
+            body {
+                background: var(--gradient-bg);
+                background-image: url('{{ asset('images/1636870790794.jpg') }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+            }
         }
 
         body::before {
@@ -50,6 +68,7 @@
             opacity: 0.6;
             z-index: -1;
             transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
         body.theme-vms {
@@ -225,12 +244,24 @@
         }
 
         /* Dark Mode Specific Styles */
-        .dark-mode {
-            background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-            background-attachment: fixed !important;
+        @media (min-width: 769px) {
+            .dark-mode {
+                background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                background-attachment: fixed !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dark-mode {
+                background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                background-attachment: scroll !important;
+            }
         }
 
         .dark-mode::before {

@@ -16,12 +16,6 @@
 
         body {
             font-family: var(--font-family);
-            background: var(--gradient-bg);
-            background-image: url('{{ asset('images/1636870790794.jpg') }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
             min-height: 100vh;
             color: var(--text-secondary);
             overflow-x: hidden;
@@ -32,6 +26,30 @@
             align-items: center;
             justify-content: center;
             position: relative;
+        }
+
+        /* Background image fixed for desktop */
+        @media (min-width: 769px) {
+            body {
+                background: var(--gradient-bg);
+                background-image: url('{{ asset('images/1636870790794.jpg') }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+            }
+        }
+
+        /* Background image scroll for mobile/iPhone (iOS fix) */
+        @media (max-width: 768px) {
+            body {
+                background: var(--gradient-bg);
+                background-image: url('{{ asset('images/1636870790794.jpg') }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+            }
         }
 
         body::before {
@@ -45,17 +63,32 @@
             opacity: 0.6;
             z-index: -1;
             transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
         /* Dark Mode Specific Styles */
-        .dark-mode {
-            background: linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%) !important;
-            background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-            background-attachment: fixed !important;
-            color: #e2e8f0 !important;
+        @media (min-width: 769px) {
+            .dark-mode {
+                background: linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%) !important;
+                background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                background-attachment: fixed !important;
+                color: #e2e8f0 !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dark-mode {
+                background: linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%) !important;
+                background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                background-attachment: scroll !important;
+                color: #e2e8f0 !important;
+            }
         }
 
         .dark-mode::before {

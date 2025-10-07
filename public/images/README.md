@@ -8,6 +8,7 @@ Place your image files here:
 These files should be copied to this directory for the application to work properly.
 
 ## File Structure:
+
 ```
 public/images/
 ├── Bismillah-Bocimi.png    (Logo)
@@ -15,4 +16,3 @@ public/images/
 ```
 
 **Note:** Image files are not tracked in Git. Copy them manually to this folder on your server.
-
