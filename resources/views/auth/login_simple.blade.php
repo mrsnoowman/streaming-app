@@ -26,32 +26,27 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            background: var(--gradient-bg);
         }
 
-        /* Background image fixed for desktop */
-        @media (min-width: 769px) {
-            body {
-                background: var(--gradient-bg);
-                background-image: url('{{ asset('images/1636870790794.jpg') }}');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-            }
+        /* Background image layer - works on all devices including iOS */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ asset('images/1636870790794.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
-        /* Background image scroll for mobile/iPhone (iOS fix) */
-        @media (max-width: 768px) {
-            body {
-                background: var(--gradient-bg);
-                background-image: url('{{ asset('images/1636870790794.jpg') }}');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-attachment: scroll;
-            }
-        }
-
+        /* Overlay gradient */
         body::before {
             content: '';
             position: fixed;
@@ -67,28 +62,12 @@
         }
 
         /* Dark Mode Specific Styles */
-        @media (min-width: 769px) {
-            .dark-mode {
-                background: linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%) !important;
-                background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
-                background-size: cover !important;
-                background-position: center !important;
-                background-repeat: no-repeat !important;
-                background-attachment: fixed !important;
-                color: #e2e8f0 !important;
-            }
+        .dark-mode {
+            color: #e2e8f0 !important;
         }
 
-        @media (max-width: 768px) {
-            .dark-mode {
-                background: linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%) !important;
-                background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
-                background-size: cover !important;
-                background-position: center !important;
-                background-repeat: no-repeat !important;
-                background-attachment: scroll !important;
-                color: #e2e8f0 !important;
-            }
+        .dark-mode::after {
+            background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
         }
 
         .dark-mode::before {

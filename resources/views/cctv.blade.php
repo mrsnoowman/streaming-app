@@ -31,32 +31,27 @@
             -webkit-tap-highlight-color: transparent;
             transition: background-color 0.3s ease, color 0.3s ease;
             position: relative;
+            background: var(--gradient-bg);
         }
 
-        /* Background image fixed for desktop */
-        @media (min-width: 769px) {
-            body {
-                background: var(--gradient-bg);
-                background-image: url('{{ asset('images/1636870790794.jpg') }}');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-            }
+        /* Background image layer - works on all devices including iOS */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ asset('images/1636870790794.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
-        /* Background image scroll for mobile/iPhone (iOS fix) */
-        @media (max-width: 768px) {
-            body {
-                background: var(--gradient-bg);
-                background-image: url('{{ asset('images/1636870790794.jpg') }}');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-attachment: scroll;
-            }
-        }
-
+        /* Overlay gradient */
         body::before {
             content: '';
             position: fixed;
@@ -252,24 +247,8 @@
         }
 
         /* Dark Mode Specific Styles */
-        @media (min-width: 769px) {
-            .dark-mode {
-                background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
-                background-size: cover !important;
-                background-position: center !important;
-                background-repeat: no-repeat !important;
-                background-attachment: fixed !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .dark-mode {
-                background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
-                background-size: cover !important;
-                background-position: center !important;
-                background-repeat: no-repeat !important;
-                background-attachment: scroll !important;
-            }
+        .dark-mode::after {
+            background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
         }
 
         .dark-mode::before {
