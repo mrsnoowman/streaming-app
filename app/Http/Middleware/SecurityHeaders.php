@@ -24,16 +24,18 @@ class SecurityHeaders
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
         
-        // Content Security Policy
+        // Content Security Policy - Optimized for video streaming
         $csp = "default-src 'self'; " .
-               "script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net; " .
-               "style-src 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net; " .
-               "font-src 'self' fonts.gstatic.com cdn.jsdelivr.net; " .
-               "img-src 'self' data: https:; " .
-               "media-src 'self' https:; " .
-               "connect-src 'self' https:; " .
+               "script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net cdnjs.cloudflare.com; " .
+               "style-src 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net cdnjs.cloudflare.com; " .
+               "style-src-elem 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net cdnjs.cloudflare.com; " .
+               "font-src 'self' fonts.gstatic.com cdn.jsdelivr.net cdnjs.cloudflare.com data:; " .
+               "img-src 'self' data: https: blob:; " .
+               "media-src 'self' https: blob: data: *.tjt-info.co.id; " .
+               "connect-src 'self' https: wss: *.tjt-info.co.id; " .
                "frame-src 'none'; " .
                "object-src 'none'; " .
+               "worker-src 'self' blob:; " .
                "base-uri 'self';";
         
         $response->headers->set('Content-Security-Policy', $csp);
