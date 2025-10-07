@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>VMS Monitoring - Toll Road</title>
-    <link rel="icon" type="image/png" href="https://10.61.0.15:5005/images/Bismillah-Bocimi.png">
+    <link rel="icon" type="image/png" href="{{ asset('images/Bismillah-Bocimi.png') }}">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
         body {
             font-family: var(--font-family);
             background: var(--gradient-bg);
-            background-image: url('https://10.61.0.15:8181/images/1636870790794.jpg');
+            background-image: url('{{ asset('images/1636870790794.jpg') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -226,7 +226,7 @@
 
         /* Dark Mode Specific Styles */
         .dark-mode {
-            background-image: url('https://10.61.0.15:8181/images/1636870790794.jpg') !important;
+            background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -872,7 +872,7 @@
         <div class="header">
             <div class="logo-section">
                 <div class="logo">
-                    <img src="https://10.61.0.15:5005/images/Bismillah-Bocimi.png" alt="BOCIMI Logo" />
+                    <img src="{{ asset('images/Bismillah-Bocimi.png') }}" alt="BOCIMI Logo" />
                 </div>
                 <div>
                     <div class="title">VMS Monitoring</div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - CCTV Toll Road Dashboard</title>
-    <link rel="icon" type="image/png" href="https://10.61.0.15:5005/images/Bismillah-Bocimi.png">
+    <link rel="icon" type="image/png" href="{{ asset('images/Bismillah-Bocimi.png') }}">
     <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -17,7 +17,7 @@
         body {
             font-family: var(--font-family);
             background: var(--gradient-bg);
-            background-image: url('https://10.61.0.15:8181/images/1636870790794.jpg');
+            background-image: url('{{ asset('images/1636870790794.jpg') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -50,7 +50,7 @@
         /* Dark Mode Specific Styles */
         .dark-mode {
             background: linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%) !important;
-            background-image: url('https://10.61.0.15:8181/images/1636870790794.jpg') !important;
+            background-image: url('{{ asset('images/1636870790794.jpg') }}') !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
@@ -285,7 +285,7 @@
         <div class="login-header">
             <div class="logo-section">
                 <div class="logo">
-                    <img src="https://10.61.0.15:5005/images/Bismillah-Bocimi.png" alt="BOCIMI Logo">
+                    <img src="{{ asset('images/Bismillah-Bocimi.png') }}" alt="BOCIMI Logo">
                 </div>
             </div>
             <h1 class="login-title">Login Dashboard</h1>
