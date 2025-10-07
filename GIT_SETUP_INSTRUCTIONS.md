@@ -7,12 +7,12 @@
 1. **Buka GitHub.com** dan login ke akun Anda
 2. **Klik tombol "+"** di pojok kanan atas → "New repository"
 3. **Isi detail repository**:
-   - **Repository name**: `streaming-app`
-   - **Description**: `CCTV Streaming Dashboard - Real-time video monitoring for toll roads with professional UI`
-   - **Visibility**: Public atau Private (sesuai preferensi)
-   - **JANGAN** centang "Add a README file" (karena sudah ada)
-   - **JANGAN** centang "Add .gitignore" (karena sudah ada)
-   - **JANGAN** centang "Choose a license" (opsional)
+    - **Repository name**: `streaming-app`
+    - **Description**: `CCTV Streaming Dashboard - Real-time video monitoring for toll roads with professional UI`
+    - **Visibility**: Public atau Private (sesuai preferensi)
+    - **JANGAN** centang "Add a README file" (karena sudah ada)
+    - **JANGAN** centang "Add .gitignore" (karena sudah ada)
+    - **JANGAN** centang "Choose a license" (opsional)
 4. **Klik "Create repository"**
 
 ### Step 2: Hubungkan Local Repository ke GitHub
@@ -64,20 +64,22 @@ streaming-app/
 ## 🔧 Repository Features
 
 ### Production Ready
-- ✅ **Complete Laravel Application**
-- ✅ **Security Headers & CSRF Protection**
-- ✅ **Database Caching & Optimization**
-- ✅ **Custom Error Pages**
-- ✅ **Professional UI with Dark/Light Mode**
-- ✅ **Real-time Video Streaming**
-- ✅ **User Authentication System**
-- ✅ **Mobile Responsive Design**
+
+-   ✅ **Complete Laravel Application**
+-   ✅ **Security Headers & CSRF Protection**
+-   ✅ **Database Caching & Optimization**
+-   ✅ **Custom Error Pages**
+-   ✅ **Professional UI with Dark/Light Mode**
+-   ✅ **Real-time Video Streaming**
+-   ✅ **User Authentication System**
+-   ✅ **Mobile Responsive Design**
 
 ### Documentation Included
-- 📚 **PRODUCTION_DEPLOYMENT.md** - Detailed deployment guide
-- 📚 **README_PRODUCTION.md** - Production overview
-- 📚 **env.production.template** - Environment configuration
-- 📚 **deploy.sh** - Automated deployment script
+
+-   📚 **PRODUCTION_DEPLOYMENT.md** - Detailed deployment guide
+-   📚 **README_PRODUCTION.md** - Production overview
+-   📚 **env.production.template** - Environment configuration
+-   📚 **deploy.sh** - Automated deployment script
 
 ## 🚀 Quick Deploy Commands
 
@@ -132,20 +134,22 @@ git push origin main
 Jika ada masalah dengan setup Git:
 
 1. **Check Git Configuration**:
-   ```bash
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
-   ```
+
+    ```bash
+    git config --global user.name "Your Name"
+    git config --global user.email "your.email@example.com"
+    ```
 
 2. **Check Remote URL**:
-   ```bash
-   git remote -v
-   ```
+
+    ```bash
+    git remote -v
+    ```
 
 3. **Check Status**:
-   ```bash
-   git status
-   ```
+    ```bash
+    git status
+    ```
 
 ---
 
